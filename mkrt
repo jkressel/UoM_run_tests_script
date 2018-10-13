@@ -1,11 +1,13 @@
 #!/bin/bash
 
-function create_file() {
+function create_file()
+{
 touch run-tests
 chmod u+x run-tests
 }
 
-function show_help() {
+function show_help() 
+{
   cat << EndOfMessage
   mkrt (c) 2018 John Alistair Kressel
 
