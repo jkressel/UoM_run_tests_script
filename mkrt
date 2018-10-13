@@ -1,0 +1,79 @@
+#!/bin/bash
+
+function create_file() {
+touch run-tests
+chmod u+x run-tests
+}
+
+function show_help() {
+  cat << EndOfMessage
+  mkrt (c) 2018 John Alistair Kressel
+
+  mkrt is a simple utility written to make my life easier. 
+  This is because the clever people at the UoM will 
+  insist on such complicated submission schemes!
+  Creates the run-tests script along with a number of lines on which to
+  test data. The corresponding .java file is also created.
+
+    -n|--name
+      Enter the name of the class which you are creating eg. AwesomeProgram
+      This argument must be set.
+    
+    -t|--tests
+      Enter the number of tests to create. This will create a suitable
+      number of lines into which you put your test data. If not set
+      will create a single line with no test data.
+
+    -h|--help
+      Is this spooky or what? Help for the help argument in the help section!?!
+
+EndOfMessage
+}
+
+help=0
+
+while [[ $# -gt 0 ]]
+do
+    key="${1}"
+    case ${key} in
+    -n|--name)
+        NAME_PARAM="${2}"
+        shift
+        ;;
+    -t|--tests)
+        NUMBER_PARAM="${2}"
+        shift
+        ;;
+    -h|--help)
+        show_help
+        help=1
+        shift
+        ;;
+    *)
+	echo "Please read the manual, fool!"
+        shift
+        ;;
+    esac
+    shift
+done
+
+if [[ -n "$NAME_PARAM" ]] && [[ -n "$NUMBER_PARAM" ]];  then
+  create_file
+  touch "$NAME_PARAM.java"
+  echo "#!/bin/bash" >> run-tests
+  echo "set -v" >> run-tests
+  for i in $( eval echo {1..$NUMBER_PARAM} ); do
+    echo "java $NAME_PARAM" >> run-tests
+  done
+elif [[ -n "$NAME_PARAM" ]] && [[ -z "$NUMBER_PARAM" ]]; then
+  create_file
+  touch "$NAME_PARAM.java"
+  echo "#!/bin/bash" >> run-tests
+  echo "set -v" >> run-tests
+  echo "java $NAME_PARAM" >> run-tests
+elif [[ -z "$NAME_PARAM" ]] && [[ -z "$NUMBER_PARAM" ]] && [[ $help == 0 ]]; then
+  touch "$NAME_PARAM.java"
+  echo "Problem"
+fi
+
+
