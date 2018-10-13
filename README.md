@@ -1,5 +1,5 @@
 # mkrt
-A shell script to create a run-tests script and the .java file(empty) for COMP16121 Java tasks. It's boring af otherwise.
+A shell script to create a run-tests script and the .java file(empty) for COMP16121 Java tasks. It's boring otherwise.
 
 ## Prerequisites
 A linux box. I have no idea if it'll run on yours. Should do though.
